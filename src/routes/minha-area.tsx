@@ -9,10 +9,10 @@ export const Route = createFileRoute("/minha-area")({
 
 const tabs = [
   { to: "/minha-area", label: "Resumo", icon: LayoutDashboard, exact: true },
-  { to: "/minha-area/acompanhados", label: "Acompanhados", icon: Users },
-  { to: "/minha-area/meus-votos", label: "Meus votos", icon: UserCircle2 },
-  { to: "/minha-area/alertas", label: "Alertas", icon: Bell },
-  { to: "/minha-area/configuracoes", label: "Configurações", icon: Settings },
+  { to: "/minha-area/acompanhados", label: "Acompanhados", icon: Users, exact: false },
+  { to: "/minha-area/meus-votos", label: "Meus votos", icon: UserCircle2, exact: false },
+  { to: "/minha-area/alertas", label: "Alertas", icon: Bell, exact: false },
+  { to: "/minha-area/configuracoes", label: "Configurações", icon: Settings, exact: false },
 ] as const;
 
 function MinhaAreaLayout() {
