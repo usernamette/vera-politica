@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { camaraApi } from "@/lib/camara-api";
 import { PartyBadge } from "@/components/site/PartyBadge";
+import { FollowActions } from "@/components/site/FollowActions";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { cn } from "@/lib/utils";
 
