@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import type { Deputado } from "@/lib/camara-api";
 import { PartyBadge } from "./PartyBadge";
+import { FollowActions } from "./FollowActions";
 import { ArrowUpRight } from "lucide-react";
 
 export function ParliamentCard({ deputado, index = 0 }: { deputado: Deputado; index?: number }) {
@@ -10,13 +11,14 @@ export function ParliamentCard({ deputado, index = 0 }: { deputado: Deputado; in
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, delay: Math.min(index * 0.02, 0.3) }}
+      className="group relative overflow-hidden rounded-xl border border-border bg-card shadow-soft transition-all hover:border-primary/40 hover:shadow-glow"
     >
+      <div className="absolute inset-0 -z-10 bg-gradient-primary opacity-0 transition-opacity group-hover:opacity-[0.06]" />
       <Link
         to="/parlamentares/$id"
         params={{ id: String(deputado.id) }}
-        className="group relative block overflow-hidden rounded-xl border border-border bg-card p-4 shadow-soft transition-all hover:border-primary/40 hover:shadow-glow"
+        className="block p-4"
       >
-        <div className="absolute inset-0 -z-10 bg-gradient-primary opacity-0 transition-opacity group-hover:opacity-[0.06]" />
         <div className="flex items-start gap-3">
           <img
             src={deputado.urlFoto}
@@ -36,6 +38,9 @@ export function ParliamentCard({ deputado, index = 0 }: { deputado: Deputado; in
           <ArrowUpRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
         </div>
       </Link>
+      <div className="border-t border-border/60 bg-background/40 px-4 py-2">
+        <FollowActions deputado={deputado} />
+      </div>
     </motion.div>
   );
 }

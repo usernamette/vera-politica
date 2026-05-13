@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useNavigate, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { LayoutDashboard, Users, Bell, Settings, LogOut, UserCircle2 } from "lucide-react";
 import { auth, useUser, useMounted } from "@/lib/user-store";

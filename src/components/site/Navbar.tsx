@@ -1,16 +1,31 @@
-import { Link } from "@tanstack/react-router";
-import { ShieldCheck } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { ShieldCheck, LogOut, UserCircle2 } from "lucide-react";
+import { auth, useUser, useMounted } from "@/lib/user-store";
 
-const links = [
-  { to: "/", label: "Início" },
-  { to: "/parlamentares", label: "Parlamentares" },
-  { to: "/proposicoes", label: "Proposições" },
-  { to: "/votacoes", label: "Votações" },
-  { to: "/analise", label: "Análises" },
-  { to: "/metodologia", label: "Metodologia" },
+const publicLinks = [
+  { to: "/", label: "Início", exact: true },
+  { to: "/parlamentares", label: "Parlamentares", exact: false },
+  { to: "/proposicoes", label: "Proposições", exact: false },
+  { to: "/votacoes", label: "Votações", exact: false },
+  { to: "/analise", label: "Análises", exact: false },
+  { to: "/metodologia", label: "Metodologia", exact: false },
+] as const;
+
+const privateLinks = [
+  { to: "/minha-area", label: "Minha área", exact: true },
+  { to: "/minha-area/acompanhados", label: "Acompanhados", exact: false },
+  { to: "/minha-area/alertas", label: "Alertas", exact: false },
+  { to: "/minha-area/configuracoes", label: "Configurações", exact: false },
 ] as const;
 
 export function Navbar() {
+  const mounted = useMounted();
+  const user = useUser();
+  const navigate = useNavigate();
+  const logged = mounted && !!user;
+
+  const links = logged ? privateLinks : publicLinks;
+
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
@@ -28,7 +43,7 @@ export function Navbar() {
             <Link
               key={l.to}
               to={l.to}
-              activeOptions={{ exact: l.to === "/" }}
+              activeOptions={{ exact: l.exact }}
               className="rounded-md px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
               activeProps={{ className: "rounded-md px-3 py-1.5 text-sm text-foreground bg-muted" }}
             >
@@ -36,12 +51,33 @@ export function Navbar() {
             </Link>
           ))}
         </nav>
-        <Link
-          to="/parlamentares"
-          className="hidden rounded-md border border-border bg-secondary/60 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-secondary md:inline-flex"
-        >
-          Explorar dados
-        </Link>
+
+        <div className="hidden items-center gap-2 md:flex">
+          {logged ? (
+            <>
+              <Link
+                to="/minha-area"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-primary text-sm font-semibold text-primary-foreground shadow-glow"
+                title={user!.name}
+              >
+                {user!.name.slice(0, 1).toUpperCase()}
+              </Link>
+              <button
+                onClick={() => { auth.logout(); navigate({ to: "/" }); }}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/50 px-3 py-1.5 text-sm hover:bg-secondary"
+              >
+                <LogOut className="h-3.5 w-3.5" /> Sair
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/60 px-3 py-1.5 text-sm font-medium hover:bg-secondary"
+            >
+              <UserCircle2 className="h-4 w-4" /> Entrar
+            </Link>
+          )}
+        </div>
       </div>
     </header>
   );
