@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VotacoesRouteImport } from './routes/votacoes'
 import { Route as ProposicoesRouteImport } from './routes/proposicoes'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AnaliseRouteImport } from './routes/analise'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParlamentaresIndexRouteImport } from './routes/parlamentares.index'
@@ -31,6 +32,11 @@ const ProposicoesRoute = ProposicoesRouteImport.update({
 const MetodologiaRoute = MetodologiaRouteImport.update({
   id: '/metodologia',
   path: '/metodologia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnaliseRoute = AnaliseRouteImport.update({
@@ -62,6 +68,7 @@ const ParlamentaresIdRoute = ParlamentaresIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
@@ -83,6 +91,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
     | '/proposicoes'
     | '/votacoes'
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
     | '/proposicoes'
     | '/votacoes'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
     | '/proposicoes'
     | '/votacoes'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnaliseRoute: typeof AnaliseRoute
+  LoginRoute: typeof LoginRoute
   MetodologiaRoute: typeof MetodologiaRoute
   ProposicoesRoute: typeof ProposicoesRouteWithChildren
   VotacoesRoute: typeof VotacoesRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/metodologia'
       fullPath: '/metodologia'
       preLoaderRoute: typeof MetodologiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analise': {
@@ -209,6 +229,7 @@ const ProposicoesRouteWithChildren = ProposicoesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnaliseRoute: AnaliseRoute,
+  LoginRoute: LoginRoute,
   MetodologiaRoute: MetodologiaRoute,
   ProposicoesRoute: ProposicoesRouteWithChildren,
   VotacoesRoute: VotacoesRoute,
