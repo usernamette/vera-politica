@@ -75,12 +75,13 @@ function PerfilPage() {
   const partyOfDep = dep.data?.dados.ultimoStatus.siglaPartido;
 
   const myVotes = useMemo(() => {
-    const list: Array<{
-      votacao: typeof votacoes.data extends { dados: infer A } ? A extends Array<infer X> ? X : never : never;
+    type VoteRow = {
+      votacao: { id: string; data: string; dataHoraRegistro: string; siglaOrgao: string; descricao: string; aprovacao: number };
       voto: string;
-      totals: { Sim: number; Não: number; Abstenção: number; Outros: number; Total: number };
+      totals: { Sim: number; "Não": number; "Abstenção": number; Outros: number; Total: number };
       partyOrientacao?: string;
-    }> = [] as any;
+    };
+    const list: VoteRow[] = [];
     (votacoes.data?.dados ?? []).forEach((v, idx) => {
       const votosRes = votosQueries[idx]?.data;
       if (!votosRes) return;
