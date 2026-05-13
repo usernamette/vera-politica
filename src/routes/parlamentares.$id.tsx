@@ -207,6 +207,13 @@ function PerfilPage() {
                 <Dot />
                 <span className="text-muted-foreground">57ª Legislatura</span>
               </div>
+              <div className="mt-4">
+                <FollowActions
+                  deputado={{ id: d.id, nome: s.nome, siglaPartido: s.siglaPartido, siglaUf: s.siglaUf, urlFoto: s.urlFoto }}
+                  size="md"
+                  variant="full"
+                />
+              </div>
             </div>
             <div className="flex flex-col gap-2 text-xs md:items-end">
               <Field label="Casa" value="Câmara dos Deputados" />
