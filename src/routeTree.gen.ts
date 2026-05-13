@@ -11,12 +11,19 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VotacoesRouteImport } from './routes/votacoes'
 import { Route as ProposicoesRouteImport } from './routes/proposicoes'
+import { Route as MinhaAreaRouteImport } from './routes/minha-area'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as AnaliseRouteImport } from './routes/analise'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ParlamentaresIndexRouteImport } from './routes/parlamentares.index'
+import { Route as MinhaAreaIndexRouteImport } from './routes/minha-area.index'
 import { Route as ProposicoesIdRouteImport } from './routes/proposicoes.$id'
 import { Route as ParlamentaresIdRouteImport } from './routes/parlamentares.$id'
+import { Route as MinhaAreaMeusVotosRouteImport } from './routes/minha-area.meus-votos'
+import { Route as MinhaAreaConfiguracoesRouteImport } from './routes/minha-area.configuracoes'
+import { Route as MinhaAreaAlertasRouteImport } from './routes/minha-area.alertas'
+import { Route as MinhaAreaAcompanhadosRouteImport } from './routes/minha-area.acompanhados'
 
 const VotacoesRoute = VotacoesRouteImport.update({
   id: '/votacoes',
@@ -28,9 +35,19 @@ const ProposicoesRoute = ProposicoesRouteImport.update({
   path: '/proposicoes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MinhaAreaRoute = MinhaAreaRouteImport.update({
+  id: '/minha-area',
+  path: '/minha-area',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MetodologiaRoute = MetodologiaRouteImport.update({
   id: '/metodologia',
   path: '/metodologia',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnaliseRoute = AnaliseRouteImport.update({
@@ -48,6 +65,11 @@ const ParlamentaresIndexRoute = ParlamentaresIndexRouteImport.update({
   path: '/parlamentares/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MinhaAreaIndexRoute = MinhaAreaIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => MinhaAreaRoute,
+} as any)
 const ProposicoesIdRoute = ProposicoesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -58,36 +80,76 @@ const ParlamentaresIdRoute = ParlamentaresIdRouteImport.update({
   path: '/parlamentares/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MinhaAreaMeusVotosRoute = MinhaAreaMeusVotosRouteImport.update({
+  id: '/meus-votos',
+  path: '/meus-votos',
+  getParentRoute: () => MinhaAreaRoute,
+} as any)
+const MinhaAreaConfiguracoesRoute = MinhaAreaConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => MinhaAreaRoute,
+} as any)
+const MinhaAreaAlertasRoute = MinhaAreaAlertasRouteImport.update({
+  id: '/alertas',
+  path: '/alertas',
+  getParentRoute: () => MinhaAreaRoute,
+} as any)
+const MinhaAreaAcompanhadosRoute = MinhaAreaAcompanhadosRouteImport.update({
+  id: '/acompanhados',
+  path: '/acompanhados',
+  getParentRoute: () => MinhaAreaRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
+  '/minha-area': typeof MinhaAreaRouteWithChildren
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
+  '/minha-area/acompanhados': typeof MinhaAreaAcompanhadosRoute
+  '/minha-area/alertas': typeof MinhaAreaAlertasRoute
+  '/minha-area/configuracoes': typeof MinhaAreaConfiguracoesRoute
+  '/minha-area/meus-votos': typeof MinhaAreaMeusVotosRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/minha-area/': typeof MinhaAreaIndexRoute
   '/parlamentares/': typeof ParlamentaresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
+  '/minha-area/acompanhados': typeof MinhaAreaAcompanhadosRoute
+  '/minha-area/alertas': typeof MinhaAreaAlertasRoute
+  '/minha-area/configuracoes': typeof MinhaAreaConfiguracoesRoute
+  '/minha-area/meus-votos': typeof MinhaAreaMeusVotosRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/minha-area': typeof MinhaAreaIndexRoute
   '/parlamentares': typeof ParlamentaresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
+  '/login': typeof LoginRoute
   '/metodologia': typeof MetodologiaRoute
+  '/minha-area': typeof MinhaAreaRouteWithChildren
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
+  '/minha-area/acompanhados': typeof MinhaAreaAcompanhadosRoute
+  '/minha-area/alertas': typeof MinhaAreaAlertasRoute
+  '/minha-area/configuracoes': typeof MinhaAreaConfiguracoesRoute
+  '/minha-area/meus-votos': typeof MinhaAreaMeusVotosRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/minha-area/': typeof MinhaAreaIndexRoute
   '/parlamentares/': typeof ParlamentaresIndexRoute
 }
 export interface FileRouteTypes {
@@ -95,38 +157,60 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
+    | '/minha-area'
     | '/proposicoes'
     | '/votacoes'
+    | '/minha-area/acompanhados'
+    | '/minha-area/alertas'
+    | '/minha-area/configuracoes'
+    | '/minha-area/meus-votos'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/minha-area/'
     | '/parlamentares/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
     | '/proposicoes'
     | '/votacoes'
+    | '/minha-area/acompanhados'
+    | '/minha-area/alertas'
+    | '/minha-area/configuracoes'
+    | '/minha-area/meus-votos'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/minha-area'
     | '/parlamentares'
   id:
     | '__root__'
     | '/'
     | '/analise'
+    | '/login'
     | '/metodologia'
+    | '/minha-area'
     | '/proposicoes'
     | '/votacoes'
+    | '/minha-area/acompanhados'
+    | '/minha-area/alertas'
+    | '/minha-area/configuracoes'
+    | '/minha-area/meus-votos'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/minha-area/'
     | '/parlamentares/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnaliseRoute: typeof AnaliseRoute
+  LoginRoute: typeof LoginRoute
   MetodologiaRoute: typeof MetodologiaRoute
+  MinhaAreaRoute: typeof MinhaAreaRouteWithChildren
   ProposicoesRoute: typeof ProposicoesRouteWithChildren
   VotacoesRoute: typeof VotacoesRoute
   ParlamentaresIdRoute: typeof ParlamentaresIdRoute
@@ -149,11 +233,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProposicoesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/minha-area': {
+      id: '/minha-area'
+      path: '/minha-area'
+      fullPath: '/minha-area'
+      preLoaderRoute: typeof MinhaAreaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/metodologia': {
       id: '/metodologia'
       path: '/metodologia'
       fullPath: '/metodologia'
       preLoaderRoute: typeof MetodologiaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analise': {
@@ -177,6 +275,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParlamentaresIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/minha-area/': {
+      id: '/minha-area/'
+      path: '/'
+      fullPath: '/minha-area/'
+      preLoaderRoute: typeof MinhaAreaIndexRouteImport
+      parentRoute: typeof MinhaAreaRoute
+    }
     '/proposicoes/$id': {
       id: '/proposicoes/$id'
       path: '/$id'
@@ -191,8 +296,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParlamentaresIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/minha-area/meus-votos': {
+      id: '/minha-area/meus-votos'
+      path: '/meus-votos'
+      fullPath: '/minha-area/meus-votos'
+      preLoaderRoute: typeof MinhaAreaMeusVotosRouteImport
+      parentRoute: typeof MinhaAreaRoute
+    }
+    '/minha-area/configuracoes': {
+      id: '/minha-area/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/minha-area/configuracoes'
+      preLoaderRoute: typeof MinhaAreaConfiguracoesRouteImport
+      parentRoute: typeof MinhaAreaRoute
+    }
+    '/minha-area/alertas': {
+      id: '/minha-area/alertas'
+      path: '/alertas'
+      fullPath: '/minha-area/alertas'
+      preLoaderRoute: typeof MinhaAreaAlertasRouteImport
+      parentRoute: typeof MinhaAreaRoute
+    }
+    '/minha-area/acompanhados': {
+      id: '/minha-area/acompanhados'
+      path: '/acompanhados'
+      fullPath: '/minha-area/acompanhados'
+      preLoaderRoute: typeof MinhaAreaAcompanhadosRouteImport
+      parentRoute: typeof MinhaAreaRoute
+    }
   }
 }
+
+interface MinhaAreaRouteChildren {
+  MinhaAreaAcompanhadosRoute: typeof MinhaAreaAcompanhadosRoute
+  MinhaAreaAlertasRoute: typeof MinhaAreaAlertasRoute
+  MinhaAreaConfiguracoesRoute: typeof MinhaAreaConfiguracoesRoute
+  MinhaAreaMeusVotosRoute: typeof MinhaAreaMeusVotosRoute
+  MinhaAreaIndexRoute: typeof MinhaAreaIndexRoute
+}
+
+const MinhaAreaRouteChildren: MinhaAreaRouteChildren = {
+  MinhaAreaAcompanhadosRoute: MinhaAreaAcompanhadosRoute,
+  MinhaAreaAlertasRoute: MinhaAreaAlertasRoute,
+  MinhaAreaConfiguracoesRoute: MinhaAreaConfiguracoesRoute,
+  MinhaAreaMeusVotosRoute: MinhaAreaMeusVotosRoute,
+  MinhaAreaIndexRoute: MinhaAreaIndexRoute,
+}
+
+const MinhaAreaRouteWithChildren = MinhaAreaRoute._addFileChildren(
+  MinhaAreaRouteChildren,
+)
 
 interface ProposicoesRouteChildren {
   ProposicoesIdRoute: typeof ProposicoesIdRoute
@@ -209,7 +362,9 @@ const ProposicoesRouteWithChildren = ProposicoesRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnaliseRoute: AnaliseRoute,
+  LoginRoute: LoginRoute,
   MetodologiaRoute: MetodologiaRoute,
+  MinhaAreaRoute: MinhaAreaRouteWithChildren,
   ProposicoesRoute: ProposicoesRouteWithChildren,
   VotacoesRoute: VotacoesRoute,
   ParlamentaresIdRoute: ParlamentaresIdRoute,
@@ -218,13 +373,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

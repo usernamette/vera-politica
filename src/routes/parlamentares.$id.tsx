@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { camaraApi } from "@/lib/camara-api";
 import { PartyBadge } from "@/components/site/PartyBadge";
+import { FollowActions } from "@/components/site/FollowActions";
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Cell, RadialBarChart, RadialBar, PolarAngleAxis } from "recharts";
 import { cn } from "@/lib/utils";
 
@@ -206,6 +207,13 @@ function PerfilPage() {
                 <span className="text-muted-foreground">Deputado(a) Federal</span>
                 <Dot />
                 <span className="text-muted-foreground">57ª Legislatura</span>
+              </div>
+              <div className="mt-4">
+                <FollowActions
+                  deputado={{ id: d.id, nome: s.nome, siglaPartido: s.siglaPartido, siglaUf: s.siglaUf, urlFoto: s.urlFoto }}
+                  size="md"
+                  variant="full"
+                />
               </div>
             </div>
             <div className="flex flex-col gap-2 text-xs md:items-end">
