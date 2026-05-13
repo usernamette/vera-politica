@@ -94,6 +94,16 @@ export const camaraApi = {
   getVotacao: (id: string) =>
     get<{ dados: Votacao }>(`/votacoes/${id}`),
 
+  getVotacaoVotos: (id: string) =>
+    get<{ dados: Array<{ tipoVoto: string; dataRegistroVoto: string; deputado_: { id: number; nome: string; siglaPartido: string; siglaUf: string; urlFoto: string } }> }>(
+      `/votacoes/${id}/votos`
+    ),
+
+  getVotacaoOrientacoes: (id: string) =>
+    get<{ dados: Array<{ orientacaoVoto: string; siglaOrgao: string; siglaPartidoBloco: string; codTipoLideranca?: string }> }>(
+      `/votacoes/${id}/orientacoes`
+    ),
+
   listPartidos: () =>
     get<{ dados: Array<{ id: number; sigla: string; nome: string }> }>("/partidos", { itens: 100, ordem: "ASC", ordenarPor: "sigla" }),
 };
