@@ -5,7 +5,7 @@ import { Search, Loader2, Download } from "lucide-react";
 import { camaraApi, UFS } from "@/lib/camara-api";
 import { ParliamentCard } from "@/components/site/ParliamentCard";
 
-export const Route = createFileRoute("/parlamentares")({
+export const Route = createFileRoute("/parlamentares/")({
   head: () => ({
     meta: [
       { title: "Parlamentares — Brasil à Vera" },

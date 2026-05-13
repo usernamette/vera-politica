@@ -11,10 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VotacoesRouteImport } from './routes/votacoes'
 import { Route as ProposicoesRouteImport } from './routes/proposicoes'
-import { Route as ParlamentaresRouteImport } from './routes/parlamentares'
 import { Route as MetodologiaRouteImport } from './routes/metodologia'
 import { Route as AnaliseRouteImport } from './routes/analise'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ParlamentaresIndexRouteImport } from './routes/parlamentares.index'
 import { Route as ProposicoesIdRouteImport } from './routes/proposicoes.$id'
 import { Route as ParlamentaresIdRouteImport } from './routes/parlamentares.$id'
 
@@ -26,11 +26,6 @@ const VotacoesRoute = VotacoesRouteImport.update({
 const ProposicoesRoute = ProposicoesRouteImport.update({
   id: '/proposicoes',
   path: '/proposicoes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ParlamentaresRoute = ParlamentaresRouteImport.update({
-  id: '/parlamentares',
-  path: '/parlamentares',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MetodologiaRoute = MetodologiaRouteImport.update({
@@ -48,47 +43,52 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ParlamentaresIndexRoute = ParlamentaresIndexRouteImport.update({
+  id: '/parlamentares/',
+  path: '/parlamentares/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProposicoesIdRoute = ProposicoesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
   getParentRoute: () => ProposicoesRoute,
 } as any)
 const ParlamentaresIdRoute = ParlamentaresIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ParlamentaresRoute,
+  id: '/parlamentares/$id',
+  path: '/parlamentares/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
   '/metodologia': typeof MetodologiaRoute
-  '/parlamentares': typeof ParlamentaresRouteWithChildren
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/parlamentares/': typeof ParlamentaresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
   '/metodologia': typeof MetodologiaRoute
-  '/parlamentares': typeof ParlamentaresRouteWithChildren
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/parlamentares': typeof ParlamentaresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analise': typeof AnaliseRoute
   '/metodologia': typeof MetodologiaRoute
-  '/parlamentares': typeof ParlamentaresRouteWithChildren
   '/proposicoes': typeof ProposicoesRouteWithChildren
   '/votacoes': typeof VotacoesRoute
   '/parlamentares/$id': typeof ParlamentaresIdRoute
   '/proposicoes/$id': typeof ProposicoesIdRoute
+  '/parlamentares/': typeof ParlamentaresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,40 +96,41 @@ export interface FileRouteTypes {
     | '/'
     | '/analise'
     | '/metodologia'
-    | '/parlamentares'
     | '/proposicoes'
     | '/votacoes'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/parlamentares/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analise'
     | '/metodologia'
-    | '/parlamentares'
     | '/proposicoes'
     | '/votacoes'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/parlamentares'
   id:
     | '__root__'
     | '/'
     | '/analise'
     | '/metodologia'
-    | '/parlamentares'
     | '/proposicoes'
     | '/votacoes'
     | '/parlamentares/$id'
     | '/proposicoes/$id'
+    | '/parlamentares/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnaliseRoute: typeof AnaliseRoute
   MetodologiaRoute: typeof MetodologiaRoute
-  ParlamentaresRoute: typeof ParlamentaresRouteWithChildren
   ProposicoesRoute: typeof ProposicoesRouteWithChildren
   VotacoesRoute: typeof VotacoesRoute
+  ParlamentaresIdRoute: typeof ParlamentaresIdRoute
+  ParlamentaresIndexRoute: typeof ParlamentaresIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -146,13 +147,6 @@ declare module '@tanstack/react-router' {
       path: '/proposicoes'
       fullPath: '/proposicoes'
       preLoaderRoute: typeof ProposicoesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/parlamentares': {
-      id: '/parlamentares'
-      path: '/parlamentares'
-      fullPath: '/parlamentares'
-      preLoaderRoute: typeof ParlamentaresRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/metodologia': {
@@ -176,6 +170,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/parlamentares/': {
+      id: '/parlamentares/'
+      path: '/parlamentares'
+      fullPath: '/parlamentares/'
+      preLoaderRoute: typeof ParlamentaresIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/proposicoes/$id': {
       id: '/proposicoes/$id'
       path: '/$id'
@@ -185,25 +186,13 @@ declare module '@tanstack/react-router' {
     }
     '/parlamentares/$id': {
       id: '/parlamentares/$id'
-      path: '/$id'
+      path: '/parlamentares/$id'
       fullPath: '/parlamentares/$id'
       preLoaderRoute: typeof ParlamentaresIdRouteImport
-      parentRoute: typeof ParlamentaresRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ParlamentaresRouteChildren {
-  ParlamentaresIdRoute: typeof ParlamentaresIdRoute
-}
-
-const ParlamentaresRouteChildren: ParlamentaresRouteChildren = {
-  ParlamentaresIdRoute: ParlamentaresIdRoute,
-}
-
-const ParlamentaresRouteWithChildren = ParlamentaresRoute._addFileChildren(
-  ParlamentaresRouteChildren,
-)
 
 interface ProposicoesRouteChildren {
   ProposicoesIdRoute: typeof ProposicoesIdRoute
@@ -221,10 +210,21 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnaliseRoute: AnaliseRoute,
   MetodologiaRoute: MetodologiaRoute,
-  ParlamentaresRoute: ParlamentaresRouteWithChildren,
   ProposicoesRoute: ProposicoesRouteWithChildren,
   VotacoesRoute: VotacoesRoute,
+  ParlamentaresIdRoute: ParlamentaresIdRoute,
+  ParlamentaresIndexRoute: ParlamentaresIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
