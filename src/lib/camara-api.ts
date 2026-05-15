@@ -80,8 +80,18 @@ export const camaraApi = {
   getDeputadoProposicoes: (id: number | string) =>
     get<{ dados: Proposicao[] }>(`/proposicoes`, { idDeputadoAutor: id, itens: 20, ordem: "DESC", ordenarPor: "id" }),
 
-  listProposicoes: (params: { siglaTipo?: string; ano?: number; itens?: number; pagina?: number } = {}) =>
+  listProposicoes: (params: { siglaTipo?: string; ano?: number; itens?: number; pagina?: number; codTema?: number; siglaPartidoAutor?: string; autor?: string } = {}) =>
     get<{ dados: Proposicao[] }>("/proposicoes", { itens: 24, ordem: "DESC", ordenarPor: "id", ...params }),
+
+  getProposicaoTramitacoes: (id: number | string) =>
+    get<{ dados: Array<{ dataHora: string; sequencia: number; siglaOrgao: string; descricaoTramitacao?: string; descricaoSituacao?: string; despacho?: string }> }>(
+      `/proposicoes/${id}/tramitacoes`
+    ),
+
+  getProposicaoAutores: (id: number | string) =>
+    get<{ dados: Array<{ uri?: string; nome: string; tipo?: string; siglaPartido?: string; siglaUf?: string; codTipo?: number }> }>(
+      `/proposicoes/${id}/autores`
+    ),
 
   getProposicao: (id: number | string) =>
     get<{ dados: Proposicao & { dataApresentacao: string; statusProposicao: any; uriAutores: string; ementaDetalhada?: string; keywords?: string } }>(

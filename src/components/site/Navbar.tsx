@@ -5,7 +5,7 @@ import { auth, useUser, useMounted } from "@/lib/user-store";
 const publicLinks = [
   { to: "/", label: "Início", exact: true },
   { to: "/parlamentares", label: "Parlamentares", exact: false },
-  { to: "/proposicoes", label: "Proposições", exact: false },
+  { to: "/proposicoes", label: "Projetos", exact: false },
   { to: "/votacoes", label: "Votações", exact: false },
   { to: "/analise", label: "Análises", exact: false },
   { to: "/metodologia", label: "Metodologia", exact: false },
