@@ -102,6 +102,37 @@ export const followStore = {
   },
 };
 
+// ---------------- Followed projects (proposições) ----------------
+export type FollowedProjeto = {
+  id: number;
+  siglaTipo: string;
+  numero: number;
+  ano: number;
+  ementa: string;
+  addedAt: string;
+};
+const KEY_PROJETOS = "bav.projetos";
+export const projetoStore = {
+  list: (): FollowedProjeto[] => read<FollowedProjeto[]>(KEY_PROJETOS, []),
+  has: (id: number) => projetoStore.list().some((p) => p.id === id),
+  toggle: (p: Omit<FollowedProjeto, "addedAt">) => {
+    const list = projetoStore.list();
+    if (list.some((x) => x.id === p.id)) {
+      write(KEY_PROJETOS, list.filter((x) => x.id !== p.id));
+    } else {
+      write(KEY_PROJETOS, [...list, { ...p, addedAt: new Date().toISOString() }]);
+    }
+  },
+};
+export function useFollowedProjetos(): FollowedProjeto[] {
+  const raw = useSyncExternalStore(
+    subscribe,
+    () => localStorage.getItem(KEY_PROJETOS),
+    () => null
+  );
+  return raw ? (JSON.parse(raw) as FollowedProjeto[]) : [];
+}
+
 // ---------------- Preferences ----------------
 export type Preferences = {
   alertVotacoes: boolean;
