@@ -37,6 +37,10 @@ function PropDetail() {
 
   const mounted = useMounted();
   const followed = useFollowedProjetos();
+  const tramitacoes = useMemo(
+    () => (tramQ.data?.dados ?? []).slice().sort((a, b) => (b.dataHora ?? "").localeCompare(a.dataHora ?? "")),
+    [tramQ.data]
+  );
 
   if (propQ.isLoading) {
     return (
@@ -57,8 +61,6 @@ function PropDetail() {
   const p = propQ.data.dados;
   const status = inferStatus(p.statusProposicao?.descricaoSituacao);
   const isSaved = mounted && followed.some((f) => f.id === p.id);
-
-  const tramitacoes = useMemo(() => (tramQ.data?.dados ?? []).slice().sort((a, b) => (b.dataHora ?? "").localeCompare(a.dataHora ?? "")), [tramQ.data]);
   const autores = autoresQ.data?.dados ?? [];
 
   const onSave = () => {
