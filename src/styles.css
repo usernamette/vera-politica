@@ -140,16 +140,6 @@
   }
   ::selection { background: oklch(0.985 0 0 / 0.15); }
 }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "cv11", "ss01", "ss03";
-  }
-  ::selection { background: oklch(0.205 0 0 / 0.15); }
-}
 
 /* Legacy utility classes kept for compatibility — neutralized to match shadcn aesthetic */
 @layer utilities {
