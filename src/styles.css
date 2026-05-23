@@ -126,11 +126,20 @@
 
 @layer base {
   html {
-    color-scheme: light;
+    color-scheme: dark;
     background-color: var(--color-background);
   }
-  html.dark { color-scheme: dark; }
   * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv11", "ss01", "ss03";
+  }
+  ::selection { background: oklch(0.985 0 0 / 0.15); }
+}
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
