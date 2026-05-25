@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet, Vote, Scale, Landmark, MapPin, Calendar, CheckCircle2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet, Vote, Scale, Landmark, MapPin, Calendar, CheckCircle2, ClipboardCheck } from "lucide-react";
+import { camaraApi } from "@/lib/camara-api";
 
 export const Route = createFileRoute("/")({
   head: () => ({
