@@ -30,6 +30,20 @@ const features = [
 
 export default function Home() { return <Page />; }
 
+function Item({ icon: Icon, title, children }: { icon: React.ComponentType<{ className?: string }>; title: string; children: React.ReactNode }) {
+  return (
+    <div className="flex gap-3">
+      <div className="mt-0.5 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-border bg-background text-primary">
+        <Icon className="h-3.5 w-3.5" />
+      </div>
+      <div>
+        <p className="text-sm font-medium text-foreground">{title}</p>
+        <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{children}</p>
+      </div>
+    </div>
+  );
+}
+
 function Page() {
   return (
     <>
