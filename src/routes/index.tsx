@@ -306,6 +306,63 @@ function Page() {
           </div>
         </div>
       </section>
+
+      {/* PIRÂMIDE DE CONFIANÇA */}
+      <section className="mx-auto max-w-7xl px-6 pb-24">
+        <div className="rounded-3xl border border-border bg-card p-8 md:p-12">
+          <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Pirâmide de Confiança</h2>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+            Todo dado exibido no Brasil à Vera carrega um nível de confiança explícito. Nenhum número aparece sem que você saiba de onde veio.
+          </p>
+
+          <div className="mt-8 divide-y divide-border/70">
+            {[
+              {
+                tag: "L1 — Fonte oficial verificada",
+                color: "border-emerald-500/40 bg-emerald-500/10 text-emerald-400",
+                title: "Dado bruto de API oficial sem transformação",
+                ex: "Ex: Nome e partido do deputado via API da Câmara",
+              },
+              {
+                tag: "L2 — Dados agregados verificáveis",
+                color: "border-sky-500/40 bg-sky-500/10 text-sky-400",
+                title: "Agregação ou cruzamento de fontes oficiais, reproduzível",
+                ex: "Ex: Total de votos a favor por parlamentar (agregação)",
+              },
+              {
+                tag: "L3 — Cálculo derivado",
+                color: "border-amber-500/40 bg-amber-500/10 text-amber-400",
+                title: "Cálculo derivado com fórmula aberta e auditável",
+                ex: "Ex: Índice de coerência partidária (fórmula aberta)",
+              },
+              {
+                tag: "L4 — Estimativa ou modelo",
+                color: "border-orange-500/40 bg-orange-500/10 text-orange-400",
+                title: "Estimativa baseada em modelo ou heurística",
+                ex: "Ex: Estimativa de alinhamento ideológico (modelo)",
+              },
+            ].map((lvl) => (
+              <div key={lvl.tag} className="grid items-start gap-3 py-4 md:grid-cols-[260px_1fr]">
+                <span className={`inline-flex w-fit items-center rounded-md border px-2.5 py-1 text-xs font-medium ${lvl.color}`}>
+                  {lvl.tag}
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">{lvl.title}</p>
+                  <p className="mt-1 text-xs italic text-muted-foreground">{lvl.ex}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="mt-6 text-sm text-muted-foreground">
+            Mais detalhes em{" "}
+            <Link to="/metodologia" className="text-primary hover:underline">
+              /docs/piramide-de-confianca
+            </Link>
+            .
+          </p>
+        </div>
+      </section>
     </>
   );
 }
