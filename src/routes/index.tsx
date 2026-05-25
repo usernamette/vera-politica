@@ -1,6 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet, Vote, Scale, Landmark, MapPin, Calendar, CheckCircle2 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet, Vote, Scale, Landmark, MapPin, Calendar, CheckCircle2, ClipboardCheck } from "lucide-react";
+import { camaraApi } from "@/lib/camara-api";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +41,94 @@ function Item({ icon: Icon, title, children }: { icon: React.ComponentType<{ cla
       <div>
         <p className="text-sm font-medium text-foreground">{title}</p>
         <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{children}</p>
+      </div>
+    </div>
+  );
+}
+
+function LatestVotacoes() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["votacoes-home"],
+    queryFn: () => camaraApi.listVotacoes({ itens: 5 }),
+    staleTime: 5 * 60_000,
+  });
+
+  const fmtDate = (s: string) => {
+    try {
+      const d = new Date(s);
+      return d.toLocaleDateString("pt-BR");
+    } catch {
+      return s;
+    }
+  };
+
+  return (
+    <div className="rounded-3xl border border-border bg-card p-8 md:p-10">
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-secondary/60 text-primary">
+            <ClipboardCheck className="h-5 w-5" />
+          </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">Em tempo real</p>
+            <h2 className="text-2xl font-semibold tracking-tight md:text-3xl">Votações da semana</h2>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 divide-y divide-border/70">
+        {isLoading ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="py-4">
+              <div className="h-3 w-40 animate-pulse rounded bg-secondary/60" />
+              <div className="mt-2 h-4 w-full animate-pulse rounded bg-secondary/60" />
+            </div>
+          ))
+        ) : isError || !data?.dados?.length ? (
+          <p className="py-6 text-sm text-muted-foreground">Não foi possível carregar as votações agora.</p>
+        ) : (
+          data.dados.slice(0, 5).map((v) => {
+            const aprovada = v.aprovacao === 1;
+            return (
+              <Link
+                key={v.id}
+                to="/votacoes"
+                className="group block py-4 transition-colors hover:bg-secondary/30 -mx-2 px-2 rounded-md"
+              >
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                  <span>{fmtDate(v.data)}</span>
+                  <span>·</span>
+                  <span className="font-medium text-foreground/80">{v.siglaOrgao}</span>
+                  <span>·</span>
+                  <span
+                    className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+                      aprovada
+                        ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                        : "border-red-500/40 bg-red-500/10 text-red-400"
+                    }`}
+                  >
+                    {aprovada ? "Aprovada" : "Rejeitada"}
+                  </span>
+                </div>
+                <p className="mt-1.5 line-clamp-2 text-sm text-foreground transition-colors group-hover:text-primary">
+                  {v.descricao}
+                </p>
+              </Link>
+            );
+          })
+        )}
+      </div>
+
+      <div className="mt-6 flex items-center justify-between">
+        <p className="text-xs text-muted-foreground">
+          {data?.dados?.length ?? 0} votações recentes · Atualizado conforme novos votos são ingeridos.
+        </p>
+        <Link
+          to="/votacoes"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+        >
+          Ver todas <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </div>
   );
@@ -271,6 +361,10 @@ function Page() {
         </div>
       </section>
 
+      {/* VOTAÇÕES DA SEMANA */}
+      <section className="mx-auto max-w-7xl px-6 pb-16">
+        <LatestVotacoes />
+      </section>
 
 
       {/* TRANSPARENCY */}
