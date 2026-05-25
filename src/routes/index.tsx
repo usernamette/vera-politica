@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet } from "lucide-react";
+import { ArrowRight, BarChart3, FileText, Gavel, ShieldCheck, Sparkles, Users, Wallet, Vote, Scale, Landmark, MapPin, Calendar, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
